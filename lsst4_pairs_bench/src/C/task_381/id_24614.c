@@ -1,0 +1,1 @@
+#include<stdio.h> int main(){ char a[10],b[10],c[10]; scanf("%s%s%s",a,b,c); printf("%c%c%c\ ",a[0]-32,b[0]-32,c[0]-32); } ./Main.c: In function \x91main\x92: ./Main.c:4:5: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%s%s%s",a,b,c); ^'

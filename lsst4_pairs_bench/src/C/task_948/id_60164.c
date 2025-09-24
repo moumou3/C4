@@ -1,0 +1,1 @@
+#include <stdio.h> int main(void){ int A,B; scanf("%d %d",&A,&B); if(A<0 && B>0){ printf("%d\ ",B-A-1); } else{ printf("%d\ ",B-A); } return 0; } ./Main.c: In function \x91main\x92: ./Main.c:4:5: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d %d",&A,&B); ^'

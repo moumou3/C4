@@ -1,0 +1,1 @@
+#include<stdio.h> int main(){ int num,sum=0; scanf("%d",&num); while(1){ if(num==0) break; sum+=num%10; num/=10; } printf("%d\ ",sum); } ./Main.c: In function \x91main\x92: ./Main.c:4:3: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d",&num); ^'

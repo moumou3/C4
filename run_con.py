@@ -41,8 +41,14 @@ from model import Seq2Seq
 from tqdm import tqdm, trange
 from torch.utils.data import DataLoader, Dataset, SequentialSampler, RandomSampler,TensorDataset
 from torch.utils.data.distributed import DistributedSampler
-from transformers import (WEIGHTS_NAME, AdamW, get_linear_schedule_with_warmup,
-                          RobertaConfig, RobertaModel, RobertaTokenizer)
+from transformers import AutoTokenizer, AutoModel, AutoModelForSequenceClassification, RobertaConfig, RobertaModel, RobertaTokenizer
+# schedule は v5 でも OK（モジュール名経由が無難）
+from transformers.optimization import get_linear_schedule_with_warmup
+# Optimizer は torch 側から
+from torch.optim import AdamW
+
+
+
 MODEL_CLASSES = {'roberta': (RobertaConfig, RobertaModel, RobertaTokenizer)}
 
 logging.basicConfig(format = '%(asctime)s - %(levelname)s - %(name)s -   %(message)s',

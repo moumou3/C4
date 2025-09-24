@@ -1,0 +1,1 @@
+#include<stdio.h> int N; int main(){ scanf("%d", &N); if(N < 60){ printf("Bad\ "); }else if(N < 90){ printf("Good\ "); }else if(N < 100){ printf("Great\ "); }else{ printf("Perfect\ "); } } ./Main.c: In function \x91main\x92: ./Main.c:4:2: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d", &N); ^'

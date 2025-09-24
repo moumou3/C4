@@ -1,0 +1,1 @@
+#include <stdio.h> int main(void) { int i; scanf("%d",&i); if(1<=i&&i<=999){ printf("ABC\ "); }else if(1000<=i&&i<=1998){ printf("ABD\ "); } return 0; } ./Main.c: In function \x91main\x92: ./Main.c:6:5: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d",&i); ^'

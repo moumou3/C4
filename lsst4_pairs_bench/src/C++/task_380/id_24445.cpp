@@ -1,0 +1,1 @@
+# include<stdio.h> #include <stdlib.h> int main() { long double A, B; int r; r=scanf("%Lf%Lf", &A,&B); if (r == 2) { if (A == B) { printf("EQUAL\ "); } if (A > B) { printf("GREATER\ "); } if (A < B) { printf("LESS\ "); } } system("pause"); }'

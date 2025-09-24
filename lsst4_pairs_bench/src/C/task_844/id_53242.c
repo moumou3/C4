@@ -1,0 +1,1 @@
+#include <stdio.h> int main(){ int N, k; scanf("%d%d", &N, &k); if(N / 2 >= k){ printf("YES\ "); } else{ printf("NO\ "); } return 0; } ./Main.c: In function \x91main\x92: ./Main.c:5:2: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d%d", &N, &k); ^'

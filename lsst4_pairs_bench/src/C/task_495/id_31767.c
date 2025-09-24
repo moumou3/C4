@@ -1,0 +1,1 @@
+#include <stdio.h> int main(void) { int n,m; scanf("%d%d",&n,&m); printf("%d\ ",(60-m)+(17-n)*60); return 0; } ./Main.c: In function \x91main\x92: ./Main.c:7:2: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%d%d",&n,&m); ^'

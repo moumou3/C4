@@ -1,0 +1,1 @@
+#include <stdio.h> #define ll long long int main() { ll N; scanf("%lld",&N); printf("%lld\ ",N*2); } ./Main.c: In function \x91main\x92: ./Main.c:6:3: warning: ignoring return value of \x91scanf\x92, declared with attribute warn_unused_result [-Wunused-result] scanf("%lld",&N); ^'

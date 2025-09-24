@@ -10,6 +10,7 @@ func_emb.pkl（埋め込み辞書）・func_list.jsonl（絶対パスを含む�
 - emb のキーがすでに正規キーならそのまま，違っていても func_list に基づくマップで解決
 - score_sem は L2 正規化後の内積（= cosine）
 - rank は q ごとにスコア降順で 1.. を付与
+python repack_candidates_sem.py --emb lsst4_pairs_bench/func_emb.pkl --func-list lsst4_pairs_bench/func_list.jsonl --cands-in lsst4_pairs_bench/candidates_old.jsonl --cands-out lsst4_pairs_bench/candidates.jsonl
 """
 
 from __future__ import annotations

@@ -1,33 +1,29 @@
-# C4: Contrastive Cross-Language Code Clone Detection
-Code and dataset for paper C4: Contrastive Cross-Language Code Clone Detection
+1. create positive and negative using C4 training set
+python build_pos_neg_like_original.py \
+  --pairs_jsonl /path/to/pairs_test.jsonl \
+  --out_dir out_pairs \
+  --neg-per-anchor 1
 
-pair_train.jsonl contains the training dataset.
+2. create labels.jsonl, func_list.jsonl, candidate.jsonl
+  python eval_pairs_to_lsst4.py \
+    --eval_pairs out_pairs/eval_pairs.jsonl \
+    --out_dir    lsst4_input \
+    --project    pairs_bench
 
-pair_valid.jsonl contains the valid dataset.
+3. rebalance labels negative amount by langpair
+ python rebalance_labels_by_langpair.py --labels labels.jsonl --out labels_balanced.jsonl --ratio 1.0
+  
+4. convert candidates.jsonl format
+  python repack_candidates_sem.py --emb lsst4_pairs_bench/func_emb.pkl --func-list lsst4_pairs_bench/func_list.jsonl --cands-in lsst4_pairs_bench/candidates_old.jsonl --cands-out lsst4_pairs_bench/candidates.jsonl
 
-pair_test.jsonl contains the test dataset.
+5. execute LSS-T4
+  pipenv run hy-scu phase1 pipeline run --phases 1 --root ~/C4/lsst4_pairs_bench/src --out ~/C4/lsst4_pairs_bench/ --skip-loc-le 0
 
-The code is in run_con.py. To run the full pipeline, you can enter the following command.
+  pipenv run hy-scu phase1 pipeline run --phases 3 --root ~/C4/lsst4_pairs_bench/src  --out ~/C4/lsst4_pairs_bench
 
-```bash
-cd code
-output=test 
-lr=5e-5
-batch_size=36
-source_length=512
-data_dir=./
-output_dir=model/$output
-train_file=./pair_train.jsonl
-dev_file=./pair_valid.jsonl
-test_file=./pair_test.jsonl
-epochs=10
-pretrained_model=microsoft/codebert-base #Roberta: roberta-base
-
-python run_con.py --do_train --do_eval --do_test --model_type roberta --model_name_or_path $pretrained_model --train_filename $train_file --dev_filename $dev_file --output_dir $output_dir --max_source_length $source_length --train_batch_size $batch_size --eval_batch_size $batch_size --learning_rate $lr --num_train_epochs $epochs --test_filename $test_file
-```
-
-To run the above code, we use 3 RTX 3090, average time for each epoch is about 60 min.
-
-### python environment
-pytorch 1.9.0
-transformers 4.4.0
+6. output result report 
+  python eval_langpairs_from_reranked.py \
+    --labels   lsst4_out/labels.jsonl \
+    --reranked lsst4_out/reranked.jsonl \
+    --pairs "C++&C#" "C++&Java" "C++&Python" "C#&Java" "C#&Python" "Java&Python" \
+    --tau_fixed ""

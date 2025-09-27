@@ -1,6 +1,38 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+[EN]
+From LSST4's reranked.jsonl and labels.jsonl, compute per language-pair:
+- Best-F1 (τ_F1)
+- PR-AUC (ranking quality)
+- (optional) Precision/Recall/F1 at a fixed τ
+
+Inputs (required keys)
+- labels.jsonl : {"u","v","label"}
+  * Pairs are matched as unordered: sort endpoints (min, max) before joining.
+- reranked.jsonl :
+  * Old format: {"u","v","score"}
+  * New format: {"q","nb","score", ...} or {"q","nb","score_sem", ...}
+    - If "score" exists, use it; otherwise fall back to "score_sem".
+
+Language grouping
+- Extract <Language> from endpoint strings of the form:
+    "project/<Language>/task_.../id_...::<func>"
+  Then group and evaluate by language **pair**.
+
+Example
+  python eval_langpairs_from_reranked.py \
+    --labels   lsst4_out/labels.jsonl \
+    --reranked lsst4_out/reranked.jsonl \
+    --pairs "C++&C#" "C++&Java" "C++&Python" "C#&Java" "C#&Python" "Java&Python" \
+    --tau_fixed ""
+
+Notes
+- Provide multiple --pairs as quoted strings like "LangA&LangB".
+- Set --tau_fixed to an empty string to disable fixed-τ evaluation (Best-F1 and PR-AUC only).
+"""
+"""
+[JA]
 LSST4 の reranked.jsonl と labels.jsonl から、言語ペアごとに
 Best-F1（τ_F1）と PR-AUC（ランキング品質）、必要なら固定τでの P/R/F1 を算出する。
 

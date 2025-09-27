@@ -13,7 +13,7 @@ Outputs (under --out_dir):
   - train_pos.jsonl : positives only (same Task)
   - eval_pairs.jsonl: positives + negatives (1 neg/anchor by default)
 
-  # 正例（train_pos）と評価用の正負（eval_pairs）を作成
+  # create positive （train_pos）and negative（eval_pairs）
 python build_pos_neg_like_original.py \
   --pairs_jsonl /path/to/pairs_test.jsonl \
   --out_dir out_pairs \

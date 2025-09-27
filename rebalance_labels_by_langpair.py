@@ -1,6 +1,31 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+[EN]
+Read labels.jsonl and, for each language pair, top up missing negatives (label=0) to
+produce labels_balanced.jsonl.
+
+Behavior
+- Keep all existing positives (label=1) as-is.
+- Generate additional negatives by parsing task IDs from endpoints (…/task_<XXX>/…):
+  combine functions from **different tasks** to form negative pairs within the same language pair.
+- Treat pairs as **unordered**: canonicalize keys with (min(u,v), max(u,v)) and drop duplicates.
+
+Usage
+  python rebalance_labels_by_langpair.py \
+    --labels labels.jsonl \
+    --out    labels_balanced.jsonl \
+    --ratio  1.0
+
+Notes
+- `--ratio` controls the target negative:positive balance **per language pair**.
+  - `1.0` → make #negatives ≈ #positives (1:1)
+  - `2.0` → make #negatives ≈ 2 × #positives
+- Language pair is inferred from the endpoint paths (e.g., "project/<Language>/task_.../id_...::func").
+- Existing negatives are retained; only the **shortfall** is synthesized to reach the target ratio.
+"""
+"""
+[JA]
 labels.jsonl を読み、言語ペアごとに不足している負例（label=0）を補完して
 labels_balanced.jsonl を出力する。
 - 既存の正例(label=1)はそのまま残す

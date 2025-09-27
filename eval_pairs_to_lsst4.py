@@ -1,6 +1,32 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+[EN]
+Convert eval_pairs.jsonl (e.g., from build_pos_neg_like_original.py) into the full LSST4 input bundle.
+
+Input (one JSON per line; example):
+  {
+    "code_a": "...", "code_b": "...",
+    "label": 0/1,
+    "task_a": 23, "task_b": 23,
+    "lang_a": "cpp", "lang_b": "java",
+    "id_a": 1503, "id_b": 1541
+  }
+
+Outputs (under --out_dir):
+  - src/<Language>/task_<T>/id_<ID>.<ext>   … write code files
+  - func_list.jsonl  … LSST4 function list (pseudo-function: lines 1..EOF)
+  - candidates.jsonl … list of {"u","v"} pairs (u,v are project-relative identifiers)
+  - labels.jsonl     … {"u","v","label"} (positive=1 / negative=0)
+
+Usage:
+  python eval_pairs_to_lsst4.py \
+    --eval_pairs out_pairs/eval_pairs.jsonl \
+    --out_dir    lsst4_input \
+    --project    pairs_bench
+"""
+"""
+[JA]
 eval_pairs.jsonl（build_pos_neg_like_original.py などの出力）を
 LSST4 の入力一式に変換します。
 

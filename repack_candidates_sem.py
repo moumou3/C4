@@ -1,6 +1,41 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
+[EN]
+Repack old candidates into the new semantic format using embeddings and func_list.
+
+Goal
+- Join candidates.jsonl (old format: {"u","v"} or {"q","nb"}) with:
+  - func_emb.pkl  (mapping: canonical_key -> embedding vector)
+  - func_list.jsonl (contains absolute paths)
+- Output the new format:
+    {"q": <canonical_key>, "nb": <canonical_key>, "score_sem": <float>, "rank": <int>}
+
+Canonical key
+- From each record in func_list.jsonl, take the substring of `file` **after "/src/"**,
+  and build:  "project/<rel>::func".
+- If an embedding key already uses this canonical form, keep it as-is.
+  If not, resolve it via the mapping derived from func_list.jsonl.
+
+Scoring & ranking
+- score_sem = cosine similarity = dot( L2_norm(emb[q]), L2_norm(emb[nb]) ).
+- For each query q, sort neighbors by score_sem descending and assign 1-based `rank`.
+
+Inputs
+- --emb        : path to func_emb.pkl
+- --func-list  : path to func_list.jsonl (with absolute file paths)
+- --cands-in   : path to old candidates JSONL ({"u","v"} or {"q","nb"})
+- --cands-out  : path to write the new-format JSONL
+
+Usage
+  python repack_candidates_sem.py \
+    --emb       lsst4_pairs_bench/func_emb.pkl \
+    --func-list lsst4_pairs_bench/func_list.jsonl \
+    --cands-in  lsst4_pairs_bench/candidates_old.jsonl \
+    --cands-out lsst4_pairs_bench/candidates.jsonl
+"""
+"""
+[JA]
 candidates.jsonl（旧形式 {"u","v"} or {"q","nb"}）と
 func_emb.pkl（埋め込み辞書）・func_list.jsonl（絶対パスを含む）を突き合わせて，
 新フォーマット {"q","nb","score_sem","rank"} を出力する。
